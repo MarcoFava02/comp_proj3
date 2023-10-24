@@ -52,3 +52,17 @@ Run: ./mainTrap.exe
 
 then: ./mainTrap.exe <1 or 0 to have interaction or not> <integer number of steps> <\"fe\"=Forward-Euero, \"rk\"=RK4, \"an\"=analytical solution>
 
+script
+------------
+This folder contains phyton and matlab codes 
+
+plot.py
+------------
+There are four phyton codes to perform the plots in problems 8 and 9
+
+grafici_appendix.m
+------------
+Contains the matlab code for making the 3D graphs 
+
+
+
