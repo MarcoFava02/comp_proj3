@@ -40,8 +40,15 @@ Main program where we use the classes. It simulates the motion of a single parti
 
 Build: g++ mainTrap.cpp -o mainTrap.exe -larmadillo 
 Run: ./mainTrap.exe 
-
+HOWWWWWW????!!
 then: ./mainTrap.exe <1 or 0 to have interaction or not> <integer number of steps> <\"fe\"=Forward-Euero, \"rk\"=RK4, \"an\"=analytical solution>
+
+mainTrap9.cpp
+------------
+Main program to perform problem 9.
+
+Build: g++ mainTrap9.cpp -o mainTrap9.exe -larmadillo 
+Run: ./mainTrap.exe HOWWWWWW??
 
 script
 ------------
