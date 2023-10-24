@@ -26,9 +26,18 @@ PenningTrap.hpp
 ---------------
 Includes the class PenningTrap with its constructor and the variables needed to run the methods. Some member functions like RK4 method or total force funcions are defined here.
 
+PenningTrap9.hpp
+---------------
+Includes the class PenningTrap9 with its constructor and the variables needed to run problem 9. 
+
 SourceFile.hpp
 ------------
 Includes the definitions of the constructors Particle and PenningTrap and of every function used afterwards in the mainTrap.cpp file.
+
+
+SourceFile9.hpp
+------------
+Includes functions used to perform problem 9.
 
 include
 ------------
