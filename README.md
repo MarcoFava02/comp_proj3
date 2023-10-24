@@ -3,11 +3,11 @@
 
 Basic functioning of a Penning trap on singly-charged ions
 ---------------------------
-In this repository for project 3 there is a include folder which contains the hearder files .hpp. Also, a src folder which contains the .cpp files.
+This is the repository for project 3 which has a include folder which contains the hearder files .hpp. Also, a src folder which contains the .cpp files and finally a script folder which contains phyton .py and matlab .m codes.
 
-src
+include
 ------------
-Contains the headers Particle.hpp, PenningTrap.hpp and SourceFile.hpp files.
+Contains the headers Particle.hpp, PenningTrap.hpp, PenningTrap9.hpp, SourceFile.hpp and SourceFile9.hpp files.
 
 Particle.hpp
 ---------------
@@ -30,7 +30,7 @@ SourceFile9.hpp
 ------------
 Includes functions used to perform problem 9.
 
-include
+src
 ------------
 Includes the main program mainTrap.cpp file
 
