@@ -21,7 +21,7 @@ Particle::Particle(double q, double m, arma::vec r, arma::vec v)
 // Definition of the constructor PenningTrap
 PenningTrap::PenningTrap(double B0_in, double V0_in, double d_in, bool do_interaction_in)
 {
-  // Use the input variables (B0_in, V0_in, d_in) to assign values to the class member variables (B0_, V0_, d_)
+  // Use the input variables (B0_in, V0_in, d_in, do_interaction_in) to assign values to the class member variables (B0_, V0_, d_, do_interaction_)
   B0_ = B0_in;
   V0_ = V0_in;
   d_ = d_in;
@@ -42,7 +42,7 @@ void PenningTrap::add_particle(Particle p_in)
 // This function gives the electrical field produced by a certain point r = (x, y, z)
 arma::vec PenningTrap::external_E_field(arma::vec r,double t)
 {
-  // To first obtain the E field, we have to know the potential V
+  // Obtain the E field from the potential V
   double potential = V0_;
   double ratio = potential / (d_ * d_);
   arma::vec E = {ratio * r(0), ratio * r(1), -2 * ratio * r(2)};
@@ -54,7 +54,7 @@ arma::vec PenningTrap::external_E_field(arma::vec r,double t)
 // This function gives the magnetic field produced in a certain point r = (x, y, z)
 arma::vec PenningTrap::external_B_field(arma::vec r)
 {
-  // As said in theory, the B field only has the k component
+  // As said in theory, the B field only has the z component
   arma::vec B = {0.0, 0.0, B0_};
 
   return B;
@@ -67,7 +67,7 @@ arma::vec PenningTrap::force_particle(int i, int j)
   if (i == j)
   {
     arma::vec force_particle(3, arma::fill::zeros);
-    return force_particle; // Added missing semicolon
+    return force_particle;
   }
   else
   {
@@ -75,7 +75,7 @@ arma::vec PenningTrap::force_particle(int i, int j)
     arma::vec force_particle = arma::vec(3);
 
     arma::vec subst = Particle_[i].r_ - Particle_[j].r_;
-    force_particle = k_e * Particle_[i].q_ * Particle_[j].q_ * (subst) / std::pow(arma::norm(subst), 3); // Added missing semicolon
+    force_particle = k_e * Particle_[i].q_ * Particle_[j].q_ * (subst) / std::pow(arma::norm(subst), 3);
     // mass of particle i will be applied after in the method
 
     return force_particle;
@@ -156,7 +156,7 @@ void PenningTrap::evolve_forward_Euler(double dt, double t){
     {
         std::vector <Particle> original_particle_vec_euler = Particle_;
 
-        // Algorithm is y_i+1 = y_i + h*f_i
+        // The algorithm is y_i+1 = y_i + h*f_i
         Particle_[i].r_ = original_particle_vec_euler[i].r_ + dt * Particle_[i].v_;
         Particle_[i].v_ = original_particle_vec_euler[i].v_ + dt * total_force(i, t) / Particle_[i].m_; 
     }
@@ -167,19 +167,28 @@ void PenningTrap::evolve_forward_Euler(double dt, double t){
 // Definition of evolve_RK4
 // This function solves equations of motion, evolving in time using the Runge-Kutta 4th order method
 void PenningTrap::evolve_RK4(double dt, double t) {
+    // Make a copy of the current state of particles to preserve their original values
     std::vector<Particle> original_particle_vec = Particle_;
+
+    // Initialize arrays to store intermediate values for each RK4 step
     std::vector<arma::vec> kr1, kv1, kr2, kv2, kr3, kv3, kr4, kv4;
 
+    // Perform the first RK4 step
     for (int i = 0; i < Particle_.size(); i++) {
+        // Calculate the intermediate values k1r and k1v
         arma::vec k1r = dt * Particle_[i].v_;
         arma::vec k1v = dt * total_force(i, t) / Particle_[i].m_;
+
+        // Store k1r and k1v in their respective arrays
         kr1.push_back(k1r);
         kv1.push_back(k1v);
 
+        // Update the position and velocity of the particle using the intermediate values
         Particle_[i].r_ = original_particle_vec[i].r_ + 0.5 * k1r;
         Particle_[i].v_ = original_particle_vec[i].v_ + 0.5 * k1v;
     }
 
+    // Perform the second RK4 step
     for (int i = 0; i < Particle_.size(); i++) {
         arma::vec k2r = dt * Particle_[i].v_;
         arma::vec k2v = dt * total_force(i, t + 0.5 * dt) / Particle_[i].m_;
@@ -190,6 +199,7 @@ void PenningTrap::evolve_RK4(double dt, double t) {
         Particle_[i].v_ = original_particle_vec[i].v_ + 0.5 * k2v;
     }
 
+    // Perform the third RK4 step
     for (int i = 0; i < Particle_.size(); i++) {
         arma::vec k3r = dt * Particle_[i].v_;
         arma::vec k3v = dt * total_force(i, t + 0.5 * dt) / Particle_[i].m_;
@@ -200,12 +210,15 @@ void PenningTrap::evolve_RK4(double dt, double t) {
         Particle_[i].v_ = original_particle_vec[i].v_ + k3v;
     }
 
+    // Perform the fourth and final RK4 step
     for (int i = 0; i < Particle_.size(); i++) {
         arma::vec k4r = dt * Particle_[i].v_;
         arma::vec k4v = dt * total_force(i, t + dt) / Particle_[i].m_;
         kr4.push_back(k4r);
         kv4.push_back(k4v);
 
+
+        // Update the position and velocity of the particle using the weighted average of k values
         Particle_[i].r_ = original_particle_vec[i].r_ + (kr1[i] + 2.0 * kr2[i] + 2.0 * kr3[i] + kr4[i]) / 6.0;
         Particle_[i].v_ = original_particle_vec[i].v_ + (kv1[i] + 2.0 * kv2[i] + 2.0 * kv3[i] + kv4[i]) / 6.0;
     }
@@ -213,17 +226,18 @@ void PenningTrap::evolve_RK4(double dt, double t) {
 
 
 
-
-
 // Definition of rel_err
 // This funcion computes the relative error of the particle Particle_[i] following the expected value of p_in 
 double PenningTrap::rel_err(int i, Particle p_in, double t){
+  // save the true position computed with the analytical function
   arma::vec true_pos = analytical_func(p_in,t);
+
+  // compute the relative error on each cordinate as err_i = abs((true - approx)/true)
   double x = std::abs((true_pos(0)-Particle_[i].r_(0))/true_pos(0));
   double y = std::abs((true_pos(1)-Particle_[i].r_(1))/true_pos(1));
   double z = std::abs((true_pos(2)-Particle_[i].r_(2))/true_pos(2));
   arma::vec err = {x,y,z};
-  return arma::norm(err);
+  return arma::norm(err); // compute the error as the norm of vector (err_x,err_y,err_z)
 }
 
 
