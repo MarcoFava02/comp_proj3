@@ -8,6 +8,7 @@ if(argc != 4){
     // Get the name of the executable file
     std::string executable_name = argv[0];
 
+    // Give instruction on how to use the inputs
     std::cerr << "Error: Wrong number of input arguments." << std::endl;
     std::cerr << "Usage: " << executable_name << " <1 or 0 to have interaction or not> <F=10*f> <1 or 0 to make the zoom or not>" << std::endl;
 
@@ -24,21 +25,21 @@ int zoom = atoi(argv[3]);               // bool var to decide if we decide to ha
 
 //prepare the simulation:
 //penning trap's parameters
-double B0 = 9.65e1;     //units used above, corrisponds to 1T
-double V0 = 2.41e6;     //units used above, corrisponds to 25mV
+double B0 = 9.65e1;     //corresponds to 1T
+double V0 = 2.41e6;     //corresponds to 25mV
 double d  = 5.00e2;     //units mu m
 double f = static_cast<double>(F)/10;
 double wV;              //wV will be insert in a loop and change between wV_min and wV_max with steps of dwV
 double wV_min = 0.2;    //units MHz
 double wV_max = 2.5;    //units MHz
-double dwV = 0.02;      //stepsize of wV
+double dwV = 0.02;      //stepsize of the frequency wV
 double n_wV = (wV_max - wV_min)/dwV; //number of steps
 
-//if we want to zoom, change the frequency boundaries 
+//if we want to zoom, change the frequency boundaries and parameters
 if(zoom){
-    wV_min = 0.64;   //units MHz
-    wV_max = 0.74;   //units MHz
-    n_wV = 115;     //number of steps
+    wV_min = 0.64;      //units MHz
+    wV_max = 0.74;      //units MHz
+    n_wV = 115;         //number of steps
     dwV = (wV_max - wV_min)/n_wV; //stepsize of wV
 }
 
@@ -92,10 +93,8 @@ for(int i=0; i<=n_wV; i++){
         trap.evolve_RK4(dt,t);
     }
 
-    //save the fraction of particles inside the trap
+    //save the number of particles inside the trap
     ofile << wV << " " << trap.count_inside() << std::endl;
-    frac = trap.count_inside()/n_part;
-    std::cout << i << " " << wV << " " << frac << std::endl;
 }
 
 ofile.close();
