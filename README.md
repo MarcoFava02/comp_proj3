@@ -79,9 +79,10 @@ Programs to perform the plots of problem 9
 Usage:   python plot9.py
          python plot9b.py
 
-grafici_appendix.m
+graphs_appendix.m
 ------------
-Contains the Matlab code for making the 3D graphs 
+Contains the Matlab code to plot the graphs in the appendix of the report.
 
+Usage: run the only section of the code you want the plot of.
 
 
