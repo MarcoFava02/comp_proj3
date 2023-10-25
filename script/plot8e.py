@@ -11,9 +11,9 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 # Save the command-line arguments:
-method = sys.argv[1]    # method used to do get the data: "fe"=Forward Fulero, "rk"=Runge Kutta, "an"=Analytical Solution
+method = sys.argv[1]    # method used to do get the data: "fe"=Forward Fulero, "rk"=Runge Kutta
 
-# Variables used in the program
+# Vectors with the used stepsizes
 n = [4000, 8000, 16000, 32000]
 
 # Import the data:
@@ -42,12 +42,6 @@ font_axl = 16       # font size of the axis label
 font_ttl = 18       # font size of the title
 font_ax = 12        # font size of the axis
 font_lg = 13        # font size of the legend
-# color = np.array(["red","green","blue","yellow","pink","black","orange","purple","beige","brown","gray","cyan","magenta"])
-
-
-## compute r_err
-# er_max1 = 
-# r_err = 
 
 
 ## Create the plot
@@ -57,7 +51,6 @@ plt.plot(t2,r2,lw=lin,label=f'n = {n[2]}')
 plt.plot(t3,r3,lw=lin,label=f'n = {n[3]}')
 plt.xlabel('t',fontsize=font_axl)
 plt.ylabel("log(err)",fontsize=font_axl)
-# plt.title('Relative error (r(t))',fontsize=font_ttl)
 
 # Make the plot
 plt.xticks(fontsize=font_ax)

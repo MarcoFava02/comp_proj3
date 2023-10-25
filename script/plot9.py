@@ -6,7 +6,7 @@ import sys
 
 # import and save the data from the files
 F = [1,4,7]
-f = [element/10 for element in F]
+f = [element/10 for element in F]   #parameter used in the simulation to compute the voltage
 
 filename1 = "outsider_1.txt"
 filename4 = "outsider_4.txt"
@@ -32,14 +32,13 @@ font_ax = 12        # font size of the axis
 font_lg = 13        # font size of the legend
 
 
-# crete the plot
+# crete the plot    --    plot the % of remaining particles in the trap as a function of \omega_V
 plt.plot(wV_1,in_1,lw=lin,label=f'f = {f[0]:.1f}')
 plt.plot(wV_4,in_4,lw=lin,label=f'f = {f[1]:.1f}')
 plt.plot(wV_7,in_7,lw=lin,label=f'f = {f[2]:.1f}')
 
 plt.xlabel('$\omega_V$ [MHz]',fontsize=font_axl)
 plt.ylabel('% of particles',fontsize=font_axl)
-# plt.title('Fraction of particles inside the trap after $500\mu s$',fontsize=font_ttl)
 plt.xticks(fontsize=font_ax)
 plt.yticks(fontsize=font_ax)
 plt.legend(fontsize=font_lg)

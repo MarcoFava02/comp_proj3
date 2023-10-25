@@ -33,7 +33,6 @@ plt.plot(wV_n,in_n,lw=lin,label=f'no interactions')
 
 plt.xlabel('$\omega_V$ [MHz]',fontsize=font_axl)
 plt.ylabel('% of particles',fontsize=font_axl)
-# plt.title('Fraction of particles inside the trap after $500\mu s$',fontsize=font_ttl)
 plt.xticks(fontsize=font_ax)
 plt.yticks(fontsize=font_ax)
 plt.legend(fontsize=font_lg)
